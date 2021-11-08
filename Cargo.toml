@@ -1,0 +1,16 @@
+[package]
+name = "irrgarten"
+version = "0.1.0"
+authors = ["Daniel May <daniel.may@mailbox.org>"]
+edition = "2018"
+description = "Small and easy to use library to generate mazes for games"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/gonsor/irrgarten"
+readme = "README.md"
+
+[lib]
+doctest = false
+
+[dependencies]
+rand = "0.8"
+thiserror = "1.0"
