@@ -244,6 +244,9 @@ impl Maze {
     where
         R: Rng + ?Sized,
     {
+        // This basically uses a recursive backtracking algorithm. However, it was
+        // modified to be iterative. Since we model walls as tiles, we need
+        // to carve two cells per iteration (carve through the walls).
         let mut stack = Vec::new();
 
         let start = TinyVec { x: 1, y: 1 };
