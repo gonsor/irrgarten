@@ -117,7 +117,6 @@
 //! ```
 
 use rand::{prelude::SliceRandom, Rng};
-use std::collections::HashMap;
 use std::convert::TryInto;
 use std::ops::{Add, Index, IndexMut, Mul};
 use std::slice::{Iter, IterMut};
@@ -191,8 +190,7 @@ pub struct Maze {
     /// Height of the maze. Must be an odd number >= 5.
     pub height: usize,
 
-    data: Vec<Vec<u8>>,
-    steps: HashMap<Direction, TinyVec>,
+    data: Vec<Vec<u8>>
 }
 
 impl Index<usize> for Maze {
@@ -227,13 +225,7 @@ impl Maze {
         Ok(Self {
             width,
             height,
-            data: vec![vec![TILE_WALL; height]; width],
-            steps: HashMap::from([
-                (Direction::North, TinyVec { x: 0, y: -1 }),
-                (Direction::East, TinyVec { x: 1, y: 0 }),
-                (Direction::South, TinyVec { x: 0, y: 1 }),
-                (Direction::West, TinyVec { x: -1, y: 0 }),
-            ]),
+            data: vec![vec![TILE_WALL; height]; width]
         })
     }
 
@@ -269,7 +261,12 @@ impl Maze {
                 let mut dirs = ALL_DIRS.clone();
                 dirs.shuffle(rng);
                 for dir in dirs {
-                    let step = *self.steps.get(&dir).unwrap();
+                    let step = match dir {
+                        Direction::North => TinyVec { x: 0, y: -1 },
+                        Direction::East => TinyVec { x: 1, y: 0 },
+                        Direction::South => TinyVec { x: 0, y: 1 },
+                        Direction::West => TinyVec { x: -1, y: 0 },
+                    };
                     let double = cell + step * 2;
 
                     // check, if this path is valid
